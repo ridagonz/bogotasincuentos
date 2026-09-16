@@ -1,3 +1,5 @@
+import { septemberArticles } from './september-news';
+
 export type Article = {
   slug: string;
   title: string;
@@ -23,6 +25,7 @@ export type Article = {
 };
 
 export const articles: Article[] = [
+  ...septemberArticles,
   {
     slug: "proyecto-ley-competitividad-simplifica-tramites-empresas",
     title: "Proyecto de Ley de Competitividad busca simplificar trámites para las empresas",
@@ -94,7 +97,7 @@ export const articles: Article[] = [
     imageAlt: "Portada de Bogotá Sin Cuentos sobre el análisis de movilidad de los sábados",
     author: "Redacción Bogotá Sin Cuentos",
     publishedAt: "2026-08-15T10:01:10-05:00",
-    time: "Hace 35 min",
+    time: "15 ago",
     readingTime: "4 min",
     priority: 100,
     format: "video",
@@ -126,7 +129,7 @@ export const articles: Article[] = [
     imageAlt: "Portada informativa sobre una detonación en el barrio Unir de Engativá",
     author: "Redacción Bogotá Sin Cuentos",
     publishedAt: "2026-08-14T16:45:30-05:00",
-    time: "Ayer · 4:45 p. m.",
+    time: "14 ago",
     readingTime: "3 min",
     priority: 94,
     location: "Engativá",
@@ -304,8 +307,13 @@ export const categories = [
   { name: "Región", slug: "region" },
 ];
 
-export const sortedArticles = [...articles].sort((a, b) => b.priority - a.priority);
+export const sortedArticles = [...articles].sort((a, b) => b.publishedAt.slice(0, 10).localeCompare(a.publishedAt.slice(0, 10)) || b.priority - a.priority);
 
 export function findArticle(slug: string) {
   return articles.find((article) => article.slug === slug);
+}
+
+export const contentUpdatedAt = "2026-09-15";
+export function publicationDate(value: string) {
+  return new Intl.DateTimeFormat("es-CO", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" }).format(new Date(value.slice(0, 10)));
 }

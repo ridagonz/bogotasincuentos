@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArticleCard } from "../components/ArticleCard";
 import { Newsletter } from "../components/Newsletter";
-import { sortedArticles } from "../lib/news";
+import { sortedArticles, publicationDate, contentUpdatedAt } from "../lib/news";
 
 export const metadata: Metadata = {
   title: { absolute: "Bogotá Sin Cuentos | Noticias de Bogotá y la región" },
@@ -19,10 +19,10 @@ export default function Home() {
       <section className="shell hero-section">
         <div className="hero-heading">
           <div>
-            <span className="section-kicker">PORTADA · ACTUALIZADA 19 DE AGOSTO</span>
+            <span className="section-kicker">PORTADA · ACTUALIZADA {publicationDate(contentUpdatedAt).toUpperCase()}</span>
             <h1>Esto es lo que está pasando.</h1>
           </div>
-          <p>La portada se ordena por relevancia, urgencia y actualidad. El equipo editorial conserva siempre el control.</p>
+          <p>Las noticias más recientes de Bogotá Sin Cuentos, con sus fechas y publicaciones originales.</p>
         </div>
         <div className="hero-grid">
           <article className="lead-story">
@@ -37,7 +37,7 @@ export default function Home() {
               <h2><Link href={`/noticia/${lead.slug}`}>{lead.title}</Link></h2>
               <p>{lead.excerpt}</p>
               <div className="lead-meta">Por {lead.author} · {lead.readingTime} de lectura</div>
-              <a className="lead-source-link" href={lead.socialUrl} target="_blank" rel="noreferrer">Ver reel original en {lead.socialPlatform} ↗</a>
+              <a className="lead-source-link" href={lead.socialUrl} target="_blank" rel="noreferrer">Ver publicación original en {lead.socialPlatform} ↗</a>
             </div>
           </article>
           <div className="hero-side">
@@ -62,11 +62,11 @@ export default function Home() {
       <section className="shell latest-section">
         <div className="section-heading">
           <div><span className="section-index">01</span><h2>Lo último</h2></div>
-          <Link href="/categoria/ciudad">Ver todas las noticias →</Link>
+          <a href="#archivo">Ver todas las noticias →</a>
         </div>
         <div className="latest-layout">
-          <div className="latest-grid">
-            {latest.slice(0, 4).map((article) => <ArticleCard key={article.slug} article={article} />)}
+          <div className="latest-grid" id="archivo">
+            {latest.map((article) => <ArticleCard key={article.slug} article={article} />)}
           </div>
           <aside className="most-read">
             <div className="aside-title"><span>EN TENDENCIA</span><h2>Lo más leído</h2></div>
@@ -114,9 +114,9 @@ export default function Home() {
         </div>
         <div className="answer-card">
           <span>RESPUESTA RÁPIDA</span>
-          <h3>¿Qué propone el nuevo proyecto para las empresas?</h3>
-          <p>Busca reducir trámites duplicados, unificar información empresarial y establecer medidas especiales para microempresas y proyectos urbanísticos.</p>
-          <div><b>Fuente:</b> Bogotá Sin Cuentos · Publicado el 19 de agosto</div>
+          <h3>{lead.title}</h3>
+          <p>{lead.excerpt}</p>
+          <div><b>Fuente:</b> Bogotá Sin Cuentos · Publicado el {publicationDate(lead.publishedAt)}</div>
         </div>
       </section>
 

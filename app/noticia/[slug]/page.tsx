@@ -4,7 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArticleCard } from "../../../components/ArticleCard";
 import { Newsletter } from "../../../components/Newsletter";
-import { articles, findArticle } from "../../../lib/news";
+import { articles, findArticle, publicationDate } from "../../../lib/news";
 
 export async function generateStaticParams() {
   return articles.map((article) => ({ slug: article.slug }));
@@ -60,7 +60,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           <p className="article-deck">{article.excerpt}</p>
           <div className="article-byline">
             <div className="author-avatar">{article.author.split(" ").map((word) => word[0]).slice(0, 2).join("")}</div>
-            <div><b>Por {article.author}</b><span>Publicado el 15 de agosto de 2026 · 07:20</span></div>
+            <div><b>Por {article.author}</b><span>Publicado el {publicationDate(article.publishedAt)}</span></div>
             <div className="share-actions"><button type="button">Compartir ↗</button><button type="button">Guardar ♧</button></div>
           </div>
         </header>
@@ -94,7 +94,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
               <a href={article.socialUrl} target="_blank" rel="noreferrer">Publicación original en {article.socialPlatform} →</a>
               {article.primarySourceUrl && <a href={article.primarySourceUrl} target="_blank" rel="noreferrer">{article.primarySourceLabel} →</a>}
             </div>
-            <div className="article-update"><b>Última actualización:</b> 15 de agosto de 2026, 10:32 · Se contrastó la publicación original y se añadieron enlaces de procedencia.</div>
+            <div className="article-update"><b>Fecha de la fuente original:</b> {publicationDate(article.publishedAt)} · Consulte el enlace de procedencia para ver la publicación completa.</div>
           </div>
           <aside className="article-aside">
             <div className="aside-sticky">

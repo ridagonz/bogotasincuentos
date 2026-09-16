@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { categories } from "../lib/news";
+import { categories, sortedArticles, publicationDate, contentUpdatedAt } from "../lib/news";
 
 export function SiteHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -30,8 +30,8 @@ export function SiteHeader() {
             </span>
           </Link>
           <div className="masthead-meta">
-            <span>Sábado, 15 de agosto de 2026</span>
-            <span className="weather"><b>14°</b> Bogotá · Lluvia ligera</span>
+            <span>Actualizado el {publicationDate(contentUpdatedAt)}</span>
+            <span>Bogotá, Colombia</span>
           </div>
           <div className="header-actions">
             <button
@@ -76,10 +76,10 @@ export function SiteHeader() {
       </header>
       <div className="breaking-bar">
         <div className="shell breaking-inner">
-          <span className="breaking-label">EN DESARROLLO</span>
-          <span className="breaking-time">09:32</span>
-          <p>El Distrito evalúa la movilidad de los sábados; no hay anuncio de una nueva restricción general.</p>
-          <Link href="/noticia/distrito-evalua-movilidad-sabados-bogota">Seguir noticia →</Link>
+          <span className="breaking-label">LO MÁS RECIENTE</span>
+          <span className="breaking-time">{sortedArticles[0].time}</span>
+          <p>{sortedArticles[0].title}</p>
+          <Link href={`/noticia/${sortedArticles[0].slug}`}>Seguir noticia →</Link>
         </div>
       </div>
     </>

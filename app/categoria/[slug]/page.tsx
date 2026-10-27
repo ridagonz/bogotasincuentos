@@ -35,7 +35,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
         <span className="section-kicker">SECCIÓN</span><h1>{name}</h1><p>{categoryDescriptions[slug] || `La actualidad de ${name}, explicada con contexto.`}</p>
       </header>
       <div className="category-lead">
-        <Link className="category-lead-image" href={`/noticia/${lead.slug}`}><img className="social-art" src={lead.image} alt={lead.imageAlt} /><span className="platform-chip">{lead.socialPlatform}</span></Link>
+        <Link className="category-lead-image" href={`/noticia/${lead.slug}`}><img className="social-art" src={lead.image} alt={lead.imageAlt} />{!lead.editorialSource && <span className="platform-chip">{lead.socialPlatform}</span>}</Link>
         <div><span className="eyebrow">LO ÚLTIMO</span><h2><Link href={`/noticia/${lead.slug}`}>{lead.title}</Link></h2><p>{lead.excerpt}</p><div className="card-meta"><span>Por {lead.author}</span><span>{lead.time}</span></div></div>
       </div>
       <div className="section-heading"><div><span className="section-index">01</span><h2>Más de {name}</h2></div><span>Publicaciones con fuente original</span></div>

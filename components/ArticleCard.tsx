@@ -6,7 +6,7 @@ export function ArticleCard({ article, index, horizontal = false }: { article: A
     <article className={horizontal ? "article-card horizontal" : "article-card"}>
       <Link className="card-image" href={`/noticia/${article.slug}`} aria-label={article.title}>
         <img className="social-art" src={article.image} alt={article.imageAlt} />
-        <span className="platform-chip">{article.socialPlatform}</span>
+        {!article.editorialSource && <span className="platform-chip">{article.socialPlatform}</span>}
         {article.format === "video" && <span className="video-chip">▶ VIDEO</span>}
         {typeof index === "number" && <span className="rank-number">{String(index + 1).padStart(2, "0")}</span>}
       </Link>
@@ -18,7 +18,7 @@ export function ArticleCard({ article, index, horizontal = false }: { article: A
         <h3><Link href={`/noticia/${article.slug}`}>{article.title}</Link></h3>
         <p>{article.excerpt}</p>
         <div className="card-meta"><span>Por {article.author}</span><span>{article.readingTime} de lectura</span></div>
-        <a className="original-link" href={article.socialUrl} target="_blank" rel="noreferrer">Ver publicación original ↗</a>
+        {article.socialUrl && <a className="original-link" href={article.socialUrl} target="_blank" rel="noreferrer">Ver publicación original ↗</a>}
       </div>
     </article>
   );

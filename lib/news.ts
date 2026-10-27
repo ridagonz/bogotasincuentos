@@ -1,4 +1,5 @@
 import { octoberArticles } from "./october-news";
+import { alertaSimit } from "./alerta-simit";
 import { septemberArticles } from './september-news';
 
 export type Article = {
@@ -23,9 +24,12 @@ export type Article = {
   verificationLabel: string;
   primarySourceUrl?: string;
   primarySourceLabel?: string;
+  editorialSource?: boolean;
+  bodySections?: { heading: string; paragraphs: string[] }[];
 };
 
 export const articles: Article[] = [
+  alertaSimit,
   ...octoberArticles,
   ...septemberArticles,
   {

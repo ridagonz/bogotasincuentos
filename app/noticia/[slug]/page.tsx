@@ -46,7 +46,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
     publisher: { "@type": "NewsMediaOrganization", name: "Bogotá Sin Cuentos" },
     speakable: { "@type": "SpeakableSpecification", cssSelector: [".article-deck", ".key-facts"] },
     citation: [article.socialUrl, article.primarySourceUrl].filter(Boolean),
-    isBasedOn: article.socialUrl,
+    isBasedOn: article.socialUrl || article.primarySourceUrl,
     mainEntityOfPage: `${baseUrl}/noticia/${article.slug}`,
   };
 
@@ -66,7 +66,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
         </header>
         <figure className="shell article-figure social-figure">
           <img className="social-art" src={article.image} alt={article.imageAlt} />
-          <figcaption>{article.imageAlt}. Imagen publicada por Bogotá Sin Cuentos en {article.socialPlatform}.</figcaption>
+          <figcaption>{article.imageAlt}{!article.editorialSource && ` Imagen publicada por Bogotá Sin Cuentos en ${article.socialPlatform}.`}</figcaption>
         </figure>
         <div className="shell article-layout">
           <div className="article-body">
@@ -75,7 +75,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
               <h2>Lo que debe saber</h2>
               <ul>{article.keyFacts.map((fact) => <li key={fact}>{fact}</li>)}</ul>
             </div>
-            <div className="social-origin">
+            {!article.editorialSource && <div className="social-origin">
               <div>
                 <span>ORIGEN DE ESTA HISTORIA</span>
                 <h2>Publicada primero en {article.socialPlatform}</h2>
@@ -83,18 +83,15 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                 <small>{article.verificationLabel}</small>
               </div>
               <a href={article.socialUrl} target="_blank" rel="noreferrer">Abrir publicación original ↗</a>
-            </div>
-            {article.body.map((paragraph, index) => <p key={paragraph} className={index === 0 ? "dropcap" : ""}>{paragraph}</p>)}
-            <h2>¿Qué recomiendan las autoridades?</h2>
-            <p>Consultar información actualizada, verificar los canales oficiales y evitar difundir mensajes sin fuente. Esta nota se actualizará si se conocen nuevos datos relevantes.</p>
-            <blockquote>“La información de servicio debe ser clara, verificable y fácil de encontrar para todas las personas.”</blockquote>
+            </div>}
+            {article.bodySections ? article.bodySections.map((section, sectionIndex) => <div className="article-section" key={section.heading || "introduccion"}>{section.heading && <h2>{section.heading}</h2>}{section.paragraphs.map((paragraph, index) => <p key={paragraph} className={sectionIndex === 0 && index === 0 ? "dropcap" : ""}>{paragraph}</p>)}</div>) : <>{article.body.map((paragraph, index) => <p key={paragraph} className={index === 0 ? "dropcap" : ""}>{paragraph}</p>)}<h2>¿Qué recomiendan las autoridades?</h2><p>Consultar información actualizada, verificar los canales oficiales y evitar difundir mensajes sin fuente. Esta nota se actualizará si se conocen nuevos datos relevantes.</p><blockquote>“La información de servicio debe ser clara, verificable y fácil de encontrar para todas las personas.”</blockquote></>}
             <div className="source-box" id="fuentes">
               <span>FUENTES Y METODOLOGÍA</span>
-              <p>La publicación original de Bogotá Sin Cuentos es el punto de partida. Cuando existe una fuente institucional disponible, la enlazamos y diferenciamos de la información preliminar.</p>
-              <a href={article.socialUrl} target="_blank" rel="noreferrer">Publicación original en {article.socialPlatform} →</a>
+              <p>{article.editorialSource ? "Consulte el portal oficial del SIMIT para verificar sus obligaciones de tránsito." : "La publicación original de Bogotá Sin Cuentos es el punto de partida. Cuando existe una fuente institucional disponible, la enlazamos y diferenciamos de la información preliminar."}</p>
+              {article.socialUrl && <a href={article.socialUrl} target="_blank" rel="noreferrer">Publicación original en {article.socialPlatform} →</a>}
               {article.primarySourceUrl && <a href={article.primarySourceUrl} target="_blank" rel="noreferrer">{article.primarySourceLabel} →</a>}
             </div>
-            <div className="article-update"><b>Fecha de la fuente original:</b> {publicationDate(article.publishedAt)} · Consulte el enlace de procedencia para ver la publicación completa.</div>
+            <div className="article-update"><b>{article.editorialSource ? "Publicado:" : "Fecha de la fuente original:"}</b> {publicationDate(article.publishedAt)}{!article.editorialSource && " · Consulte el enlace de procedencia para ver la publicación completa."}</div>
           </div>
           <aside className="article-aside">
             <div className="aside-sticky">

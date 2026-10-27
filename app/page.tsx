@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArticleCard } from "../components/ArticleCard";
 import { Newsletter } from "../components/Newsletter";
+import { HeroCarousel } from "../components/HeroCarousel";
 import { sortedArticles, publicationDate, contentUpdatedAt } from "../lib/news";
 
 export const metadata: Metadata = {
@@ -13,6 +14,7 @@ export const metadata: Metadata = {
 
 export default function Home() {
   const [lead, second, third, ...latest] = sortedArticles;
+  const instagramRecent = sortedArticles.filter((article) => !article.editorialSource && article.socialPlatform === "Instagram").slice(0, 3);
 
   return (
     <main>
@@ -25,21 +27,7 @@ export default function Home() {
           <p>Las noticias más recientes de Bogotá Sin Cuentos, con sus fechas y publicaciones originales.</p>
         </div>
         <div className="hero-grid">
-          <article className="lead-story">
-            <Link href={`/noticia/${lead.slug}`} className="lead-image social-lead" style={{ backgroundImage: `url(${lead.image})` }}>
-              <img className="social-art" src={lead.image} alt={lead.imageAlt} />
-            </Link>
-            <div className="lead-copy">
-              <div className="eyebrow-row light">
-                <Link href={`/categoria/${lead.categorySlug}`} className="eyebrow">{lead.category}</Link>
-                <span>Actualizada {lead.time.toLowerCase()}</span>
-              </div>
-              <h2><Link href={`/noticia/${lead.slug}`}>{lead.title}</Link></h2>
-              <p>{lead.excerpt}</p>
-              <div className="lead-meta">Por {lead.author} · {lead.readingTime} de lectura</div>
-              <a className="lead-source-link" href={lead.socialUrl} target="_blank" rel="noreferrer">Ver publicación original en {lead.socialPlatform} ↗</a>
-            </div>
-          </article>
+          <HeroCarousel slides={[lead, ...instagramRecent]} />
           <div className="hero-side">
             {[second, third].map((article, index) => (
               <article className="side-story" key={article.slug}>

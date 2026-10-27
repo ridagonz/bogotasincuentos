@@ -69,6 +69,39 @@ button { cursor: pointer; }
 .hero-heading h1 { font-family: var(--display); font-size: clamp(40px, 5vw, 66px); line-height: .95; letter-spacing: -.055em; margin: 0; }
 .hero-heading p { max-width: 410px; color: var(--muted); font-size: 13px; border-left: 3px solid var(--yellow); padding-left: 14px; margin: 0 0 4px; }
 .hero-grid { display: grid; grid-template-columns: minmax(0, 1.76fr) minmax(300px, .8fr); gap: 24px; }
+.hero-carousel { min-width: 0; background: #10191f; color: white; display: flex; flex-direction: column; }
+.carousel-slide { flex: 1; display: flex; flex-direction: column; }
+.carousel-image { display: grid; place-items: center; overflow: hidden; background: #101e2a; min-height: 235px; }
+.carousel-image img { display: block; width: 100%; height: 100%; }
+.carousel-image.editorial-banner { aspect-ratio: 3 / 1; min-height: 0; }
+.carousel-image.editorial-banner img { object-fit: contain; }
+.carousel-image.instagram-banner { height: 270px; background: #151515; }
+.carousel-image.instagram-banner img { object-fit: contain; }
+.carousel-copy { padding: 27px 30px 20px; flex: 1; }
+.carousel-copy h2 { font-family: var(--display); font-size: clamp(29px, 3.4vw, 46px); line-height: 1.02; letter-spacing: -.04em; margin: 13px 0; text-wrap: balance; }
+.carousel-copy p { max-width: 680px; font-size: 16px; color: #eceeed; line-height: 1.5; margin: 0 0 15px; }
+.carousel-read { display: inline-block; color: var(--yellow); font-size: 13px; font-weight: 800; }
+.carousel-controls { display: flex; align-items: center; gap: 10px; padding: 0 24px 20px; }
+.carousel-arrow, .carousel-pause, .carousel-dots button { border: 1px solid #78818a; background: transparent; color: white; cursor: pointer; }
+.carousel-arrow { width: 38px; height: 38px; font-size: 20px; }
+.carousel-pause { padding: 9px 11px; font-size: 12px; }
+.carousel-dots { display: flex; gap: 2px; }
+.carousel-dots button { display: grid; place-items: center; width: 30px; height: 38px; border: 0; }
+.carousel-dots span { width: 8px; height: 8px; border-radius: 50%; background: #8e9aa1; }
+.carousel-dots button[aria-current="true"] span { width: 10px; height: 10px; background: var(--yellow); }
+.carousel-count { margin-left: auto; color: #d5dbe0; font-size: 12px; }
+.hero-carousel button:focus-visible, .hero-carousel a:focus-visible { outline: 3px solid var(--yellow); outline-offset: 3px; }
+.article-section { max-width: 680px; }
+.article-section > p { font-family: var(--display); font-size: 20px; line-height: 1.72; margin: 0 0 24px; }
+.article-section > h2 { font-family: var(--display); font-size: 35px; line-height: 1.1; margin: 42px 0 15px; }
+.article-section > p.dropcap::first-letter { float: left; font-family: var(--display); font-size: 78px; line-height: .8; margin: 10px 10px 0 0; font-weight: 800; }
+@media (max-width: 600px) {
+  .carousel-copy { padding: 23px 20px 18px; }
+  .carousel-image.instagram-banner { height: 220px; }
+  .carousel-controls { padding: 0 14px 18px; gap: 5px; }
+  .article-section > p { font-size: 18px; }
+  .article-section > h2 { font-size: 29px; }
+}
 .lead-story { position: relative; min-height: 570px; overflow: hidden; background: #111; color: white; }
 .lead-image { position: absolute; inset: 0; }
 .lead-image::after { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(180deg, transparent 30%, rgba(0,0,0,.82) 100%); }

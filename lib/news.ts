@@ -1,3 +1,4 @@
+import { octoberArticles } from "./october-news";
 import { septemberArticles } from './september-news';
 
 export type Article = {
@@ -25,6 +26,7 @@ export type Article = {
 };
 
 export const articles: Article[] = [
+  ...octoberArticles,
   ...septemberArticles,
   {
     slug: "proyecto-ley-competitividad-simplifica-tramites-empresas",
@@ -313,7 +315,7 @@ export function findArticle(slug: string) {
   return articles.find((article) => article.slug === slug);
 }
 
-export const contentUpdatedAt = "2026-09-15";
+export const contentUpdatedAt = "2026-10-26";
 export function publicationDate(value: string) {
   return new Intl.DateTimeFormat("es-CO", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" }).format(new Date(value.slice(0, 10)));
 }
